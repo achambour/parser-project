@@ -3,6 +3,7 @@
 import sys
 from pprint import pprint
 
+""" Lexical analysis """
 
 class Token():
     def __init__(self, is_term, value):
@@ -21,8 +22,7 @@ class Lexer():
 
     def tokenize(self, input):
         for c in input:
-            token = Token((c in self.TERMS), c)
-            self.tokens.append(token)
+            self.tokens.append(Token((c in self.TERMS), c))
 
 
 if __name__ == "__main__":
