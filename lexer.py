@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/opt/homebrew/bin/python
 
 import sys
 from pprint import pprint
@@ -21,12 +21,8 @@ class Lexer():
 
     def tokenize(self, input):
         for c in input:
-            if c in self.TERMS:
-                token = Token(True, c)
-                self.tokens.append(token)
-            else:
-                token = Token(False, c)
-                self.tokens.append(token)
+            token = Token((c in self.TERMS), c)
+            self.tokens.append(token)
 
 
 if __name__ == "__main__":
