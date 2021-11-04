@@ -1,5 +1,4 @@
 import lexer
-
 '''
 Precedence is from lowest to highest (same as C):
 
@@ -31,7 +30,8 @@ unary   -> "-" unary | primary
 primary -> "(" expr ")" | [0-9] | $
 '''
 
-class Parser():
+
+class Syntax():
     def __init__(self, start_token):
         self.token = start_token
 
@@ -39,18 +39,49 @@ class Parser():
         return self.term()
 
     def term(self):
-        left = self.factor()
+        expr = self.factor()
 
-        while self.token.match(lexer.STAR_SLASH):
-            operator = self.token.prev
+        while self.token.match(lexer.PLUS, lexer.MINUS):
+            operator = self.token
+            self.token = self.token.next
             right = self.factor()
-            # expr = subtree.term(left, operator, right);
+            # expr = subtree.term(expr, operator, right)
+
+        return expr
 
     def factor(self):
-        pass
+        expr = self.unary()
+
+        while self.token.match(lexer.STAR, lexer.SLASH):
+            operator = self.token
+            self.token = self.token.next
+            right = self.unary()
+            # expr = subtree.factor(expr, operator, right)
+
+        return expr
 
     def unary(self):
-        pass
+        if self.token.match(lexer.MINUS):
+            operator = self.token
+            self.token = self.token.next
+            right = self.unary()
+            # return subtree.unary(operator, right)
+            return None
+
+        return self.primary()
 
     def primary(self):
-        pass
+        if self.token.match(lexer.LPAR):
+            self.token = self.token.next
+            expr = self.expr()
+
+            if not self.token.match(lexer.RPAR):
+                print(f"Error: parser: expect ')' after expression")
+                exit(-1)
+
+            # return subtree.grouping(expr)
+            return None
+
+        if self.token.match(lexer.NUMBER):
+            # return subtree.number(self.token)
+            return None

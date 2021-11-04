@@ -1,10 +1,12 @@
 import re
 
 NUMBER = 0
-PLUS_MINUS = 1
-STAR_SLASH = 2
-LPAR = 3
-RPAR = 4
+PLUS = 1
+MINUS = 2
+STAR = 3
+SLASH = 4
+LPAR = 5
+RPAR = 6
 
 
 class Token():
@@ -44,10 +46,14 @@ class Tokenizer():
         for word in input.split():
             if word.isnumeric():
                 self.add(Token(word, NUMBER))
-            elif word in "+-":
-                self.add(Token(word, PLUS_MINUS))
-            elif word in "*/":
-                self.add(Token(word, STAR_SLASH))
+            elif word in "+":
+                self.add(Token(word, PLUS))
+            elif word in "-":
+                self.add(Token(word, MINUS))
+            elif word in "*":
+                self.add(Token(word, STAR))
+            elif word in "/":
+                self.add(Token(word, SLASH))
             elif word == "(":
                 self.add(Token(word, LPAR))
             elif word == ")":

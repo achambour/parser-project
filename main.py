@@ -2,22 +2,17 @@
 
 import sys
 import lexer
+import parser
 
 if __name__ == "__main__":
 
     if len(sys.argv) > 1:
         input = str(sys.argv[1])
 
+        # Tokenize the input
         tokens = lexer.Tokenizer()
         tokens.tokenize(input)
 
-        token = tokens.head
-
-        while token:
-            if token.prev:
-                print(f"Previous: {token.prev.text}")
-            print(f"Token: {token.text}")
-            if token.next:
-                print(f"Next: {token.next.text}")
-            print("\n")
-            token = token.next
+        # Parse the expr from the start token (head)
+        parser = parser.Syntax(tokens.head)
+        parser.expr()
