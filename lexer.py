@@ -14,12 +14,12 @@ class Token():
         self.prev = None
         self.next = None
 
-    def peek(self, value):
-        return self.next.value == value
+    def peek(self, text):
+        return self.next.text == text
 
-    def match(self, *values):
-        for value in values:
-            if self.value == value:
+    def match(self, *tokens):
+        for token in tokens:
+            if self.kind == token:
                 return True
         return False
 
