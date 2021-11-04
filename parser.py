@@ -1,6 +1,6 @@
 import lexer
-'''
 
+'''
 Precedence is from lowest to highest (same as C):
 
 expr    -> term
@@ -29,9 +29,7 @@ term    -> factor ( ("+" | "-") factor )*
 factor  -> unary ( ("*" | "/") unary )*
 unary   -> "-" unary | primary
 primary -> "(" expr ")" | [0-9] | $
-
 '''
-
 
 class Parser():
     def __init__(self, start_token):
@@ -43,7 +41,7 @@ class Parser():
     def term(self):
         left = self.factor()
 
-        while  self.token.match("+", "-"):
+        while self.token.match(lexer.STAR_SLASH):
             operator = self.token.prev
             right = self.factor()
             # expr = subtree.term(left, operator, right);
