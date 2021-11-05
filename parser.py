@@ -1,4 +1,4 @@
-import lexer
+from lexer import Token
 '''
 Precedence is from lowest to highest (same as C):
 
@@ -36,7 +36,8 @@ class Syntax():
         self.token = start_token
 
     def advance(self):
-        self.token = self.token.next
+        if self.token.next:
+            self.token = self.token.next
 
     def expr(self):
         return self.term()
@@ -44,7 +45,7 @@ class Syntax():
     def term(self):
         expr = self.factor()
 
-        while self.token.match(lexer.PLUS, lexer.MINUS):
+        while self.token.match(Token.PLUS, Token.MINUS):
             print(f"Info: parser: matched '{self.token.text}'")
             operator = self.token
             self.advance()
@@ -56,7 +57,7 @@ class Syntax():
     def factor(self):
         expr = self.unary()
 
-        while self.token.match(lexer.STAR, lexer.SLASH):
+        while self.token.match(Token.STAR, Token.SLASH):
             print(f"Info: parser: matched '{self.token.text}'")
             operator = self.token
             self.advance()
@@ -66,7 +67,7 @@ class Syntax():
         return expr
 
     def unary(self):
-        if self.token.match(lexer.MINUS):
+        if self.token.match(Token.MINUS):
             print(f"Info: parser: matched '{self.token.text}'")
             operator = self.token
             self.advance()
@@ -78,14 +79,14 @@ class Syntax():
         return self.primary()
 
     def primary(self):
-        if self.token.match(lexer.LPAR):
+        if self.token.match(Token.LPAR):
             print(f"Info: parser: matched '{self.token.text}'")
             self.advance()
 
-            # Recurse back to the start symbol
+            # recurse back to the start symbol
             expr = self.expr()
 
-            if self.token.match(lexer.RPAR):
+            if self.token.match(Token.RPAR):
                 print(f"Info: parser: matched '{self.token.text}'")
                 self.advance()
             else:
@@ -95,7 +96,7 @@ class Syntax():
             # return subtree.grouping(expr)
             return None
 
-        if self.token.match(lexer.NUMBER):
+        if self.token.match(Token.NUMBER):
             print(f"Info: parser: matched '{self.token.text}'")
             number = self.token
             self.advance()

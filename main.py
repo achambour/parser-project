@@ -1,8 +1,8 @@
 #!/usr/local/bin/python
 
 import sys
-import lexer
-import parser
+from lexer import Tokenizer
+from parser import Syntax
 
 if __name__ == "__main__":
 
@@ -10,9 +10,9 @@ if __name__ == "__main__":
         input = str(sys.argv[1])
 
         # Tokenize the input
-        tokens = lexer.Tokenizer()
+        tokens = Tokenizer()
         tokens.tokenize(input)
 
         # Parse the expr from the start token (head)
-        parser = parser.Syntax(tokens.head)
+        parser = Syntax(tokens.head)
         parser.expr()
