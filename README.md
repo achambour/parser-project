@@ -1,5 +1,14 @@
 # Python recursive-descent parser
 
+We want to parse arithmetic expressions to implement a small calculator. Some examples of valid expressions include:
+
+```
+2 + 3 * 5
+1 + 1 + (2 - 1)
+8 / 4 / 2
+-1 - -1
+```
+
 The grammar must be predictive (at least by one token of lookahead in our case) otherwise the parser cannot select the appropriate expansion rule.
 
 A parser that implements backtracking in the combinatorial sense of constructing the parse tree associated with the grammar to explore all the possibilities that the grammar can accept is named LL(*) with "infinite" lookahead and is extremely inefficient, so we selected a predictive LL(1) recursive descent parser instead.
