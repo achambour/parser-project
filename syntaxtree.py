@@ -16,12 +16,6 @@ class Unary(TreeNode):
         print(operator.text, expr)
 
 
-class NestedGroup(TreeNode):
-    def __init__(self, expr):
-        super().__init__(expr,  None)
-        print(expr)
-
-
 class NumberLiteral(TreeNode):
     def __init__(self, number):
         super().__init__(None, None)

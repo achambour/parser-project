@@ -14,7 +14,7 @@ class Syntax():
         while self.tokens.match(Token.PLUS, Token.MINUS):
             operator = self.tokens.eat()
             right = self.factor()
-            expr = syntaxtree.Infix(expr, operator, right)
+            expr = syntaxtree.InfixExpr(expr, operator, right)
         return expr
 
     def factor(self):
@@ -22,14 +22,14 @@ class Syntax():
         while self.tokens.match(Token.STAR, Token.SLASH):
             operator = self.tokens.eat()
             right = self.unary()
-            expr = syntaxtree.Infix(expr, operator, right)
+            expr = syntaxtree.InfixExpr(expr, operator, right)
         return expr
 
     def unary(self):
         if self.tokens.match(Token.MINUS):
             operator = self.tokens.eat()
             right = self.unary()
-            return syntaxtree.Unary(operator, right)
+            return syntaxtree.UnaryExpr(operator, right)
         return self.primary()
 
     def primary(self):
@@ -38,7 +38,7 @@ class Syntax():
             expr = self.expr()
             if self.tokens.match(Token.RPAR):
                 self.tokens.eat()
-                return syntaxtree.NestedGroup(expr)
+                return expr
             else:
                 print("Parse error: expect ')' after expression")
 
