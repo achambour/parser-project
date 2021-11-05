@@ -38,7 +38,7 @@ class TokenStack():
         self.tokens.append(token)
 
     def check(self, type):
-        if not self.is_at_end():
+        if self.is_at_end():
             return False
         return self.peek().kind == type
 

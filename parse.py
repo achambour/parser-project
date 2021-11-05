@@ -1,5 +1,7 @@
 from lexer import Token
-import tree
+import syntaxtree
+
+
 
 
 class Syntax():
@@ -10,41 +12,40 @@ class Syntax():
         self.term()
 
     def term(self):
-        left = self.factor()
+        expr = self.factor()
         while self.tokens.match(Token.PLUS, Token.MINUS):
             operator = self.tokens.eat()
             right = self.factor()
-            expr = tree.InfixExpr(left, operator, right)
+            expr = syntaxtree.Infix(expr, operator, right)
         return expr
 
     def factor(self):
-        left = self.unary()
+        expr = self.unary()
         while self.tokens.match(Token.STAR, Token.SLASH):
             operator = self.tokens.eat()
             right = self.unary()
-            expr = tree.InfixExpr(left, operator, right)
+            expr = syntaxtree.Infix(expr, operator, right)
         return expr
 
     def unary(self):
         if self.tokens.match(Token.MINUS):
             operator = self.tokens.eat()
             right = self.unary()
-            return tree.UnaryExpr(operator, right)
+            return syntaxtree.Unary(operator, right)
         return self.primary()
 
     def primary(self):
-
         if self.tokens.match(Token.LPAR):
             self.tokens.eat()
             expr = self.expr()
             if self.tokens.match(Token.RPAR):
                 self.tokens.eat()
-                return tree.NestedGroup(expr)
+                return syntaxtree.NestedGroup(expr)
             else:
                 print("Parse error: expect ')' after expression")
 
         if self.tokens.match(Token.NUMBER):
             number = self.tokens.eat()
-            return tree.NumberLiteral(number)
+            return syntaxtree.NumberLiteral(number)
 
         return None
