@@ -28,13 +28,13 @@ class TokenStack():
     def is_at_end(self):
         return self.peek().kind == Token.END_OF_INPUT
 
-    def pop(self):
+    def eat(self):
         token = self.peek()
         if not self.is_at_end():
             self.index += 1
         return token
 
-    def push(self, token):
+    def add(self, token):
         self.tokens.append(token)
 
     def check(self, type):
@@ -51,21 +51,21 @@ class TokenStack():
     def tokenize(self, input):
         for word in input.split():
             if word.isnumeric():
-                self.push(Token(word, Token.NUMBER))
+                self.add(Token(word, Token.NUMBER))
             elif word in "+":
-                self.push(Token(word, Token.PLUS))
+                self.add(Token(word, Token.PLUS))
             elif word in "-":
-                self.push(Token(word, Token.MINUS))
+                self.add(Token(word, Token.MINUS))
             elif word in "*":
-                self.push(Token(word, Token.STAR))
+                self.add(Token(word, Token.STAR))
             elif word in "/":
-                self.push(Token(word, Token.SLASH))
+                self.add(Token(word, Token.SLASH))
             elif word == "(":
-                self.push(Token(word, Token.LPAR))
+                self.add(Token(word, Token.LPAR))
             elif word == ")":
-                self.push(Token(word, Token.RPAR))
+                self.add(Token(word, Token.RPAR))
             else:
                 print(f"Lexer error: unrecognized token {word}")
                 exit(-1)
 
-        self.push(Token("$", Token.END_OF_INPUT))
+        self.add(Token("$", Token.END_OF_INPUT))
