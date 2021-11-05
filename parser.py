@@ -59,78 +59,51 @@ Nonterminal -> call to the corresponding rule function
 '''
 
 
-class Syntax():
-    def __init__(self, start_token):
-        self.token = start_token
-
-    # expect a token and eat it
-    def eat(self, token):
-        if self.token.match(token):
-            self.token = self.token.next
+class Parser():
+    def __init__(self, tokens):
+        self.tokens = tokens
 
     def expr(self):
-        return self.term()
+        self.term()
 
     def term(self):
-        expr = self.factor()
-
-        while self.token.match(Token.PLUS, Token.MINUS):
-            print(f"Info: parser: matched '{self.token.text}'")
-            operator = self.token
-            self.token = self.token.next
+        left = self.factor()
+        while self.tokens.match(Token.PLUS, Token.MINUS):
+            operator = self.tokens.pop()
             right = self.factor()
-            # expr = subtree.term(expr, operator, right)
-
-        return expr
+            # expr = Infix(left, operator, right)
+        return None
 
     def factor(self):
-        expr = self.unary()
-
-        while self.token.match(Token.STAR, Token.SLASH):
-            print(f"Info: parser: matched '{self.token.text}'")
-            operator = self.token
-            self.token = self.token.next
+        left = self.unary()
+        while self.tokens.match(Token.STAR, Token.SLASH):
+            operator = self.tokens.pop()
             right = self.unary()
-            # expr = subtree.factor(expr, operator, right)
-
-        return expr
+            # expr = Infix(left, operator, right)
+        return None
 
     def unary(self):
-        if self.token.match(Token.MINUS):
-            print(f"Info: parser: matched '{self.token.text}'")
-            operator = self.token
-            self.token = self.token.next
+        if self.tokens.match(Token.MINUS):
+            operator = self.tokens.pop()
             right = self.unary()
-
-            # return subtree.unary(operator, right)
-            return None
-
+            # return Unary(operator, right)
         return self.primary()
 
     def primary(self):
-        if self.token.match(Token.LPAR):
-            print(f"Info: parser: matched '{self.token.text}'")
-            self.token = self.token.next
 
-            # recurse back to the start symbol
+        if self.tokens.match(Token.LPAR):
+            self.tokens.pop()
             expr = self.expr()
-
-            if self.token.match(Token.RPAR):
-                print(f"Info: parser: matched '{self.token.text}'")
-                self.token = self.token.next
+            if self.tokens.match(Token.RPAR):
+                self.tokens.pop()
+                # return NestedGroup(expr)
+                return None
             else:
-                print(f"Error: parser: expect ')' after expression")
-                exit(-1)
+                print("Parse error: expect ')' after expression")
 
-            # return subtree.grouping(expr)
-            return None
-
-        if self.token.match(Token.NUMBER):
-            print(f"Info: parser: matched '{self.token.text}'")
-            number = self.token
-            self.token = self.token.next
-
-            # return subtree.number(number)
+        if self.tokens.match(Token.NUMBER):
+            number = self.tokens.pop()
+            # return NumberLiteral(number)
             return None
 
         return None

@@ -3,7 +3,7 @@ import re
 
 class Token():
 
-    EOF = -1
+    END_OF_INPUT = -1
     NUMBER = 0
     PLUS = 1
     MINUS = 2
@@ -15,7 +15,32 @@ class Token():
     def __init__(self, text, kind):
         self.text = text
         self.kind = kind
-        self.next = None
+
+
+class TokenStack():
+    def __init__(self):
+        self.tokens = list()
+        self.index = 0
+
+    def peek(self):
+        return self.tokens[self.index]
+
+    def is_at_end(self):
+        return self.peek().kind == Token.END_OF_INPUT
+
+    def pop(self):
+        token = self.peek()
+        if not self.is_at_end():
+            self.index += 1
+        return token
+
+    def push(self, token):
+        self.tokens.append(token)
+
+    def check(self, type):
+        if not self.is_at_end():
+            return False
+        return self.peek().kind == type
 
     def match(self, *tokens):
         for token in tokens:
@@ -23,47 +48,24 @@ class Token():
                 return True
         return False
 
-    def check(self, kind):
-        if self.kind == self.EOF:
-            return False
-
-        # peek current token
-        return self.kind == kind
-
-
-class Tokenizer():
-    def __init__(self):
-        self.head = None
-        self.tail = None
-
-    def insert_end(self, new):
-        # first token inserted
-        if not self.head and not self.tail:
-            self.head = new
-            self.tail = new
-            return
-
-        self.tail.next = new
-        self.tail = new
-
     def tokenize(self, input):
         for word in input.split():
             if word.isnumeric():
-                self.insert_end(Token(word, Token.NUMBER))
+                self.push(Token(word, Token.NUMBER))
             elif word in "+":
-                self.insert_end(Token(word, Token.PLUS))
+                self.push(Token(word, Token.PLUS))
             elif word in "-":
-                self.insert_end(Token(word, Token.MINUS))
+                self.push(Token(word, Token.MINUS))
             elif word in "*":
-                self.insert_end(Token(word, Token.STAR))
+                self.push(Token(word, Token.STAR))
             elif word in "/":
-                self.insert_end(Token(word, Token.SLASH))
+                self.push(Token(word, Token.SLASH))
             elif word == "(":
-                self.insert_end(Token(word, Token.LPAR))
+                self.push(Token(word, Token.LPAR))
             elif word == ")":
-                self.insert_end(Token(word, Token.RPAR))
+                self.push(Token(word, Token.RPAR))
             else:
-                print(f"Error: lexer: unrecognized token {word}")
+                print(f"Lexical error: unrecognized token {word}")
                 exit(-1)
 
-        self.insert_end(Token("$", Token.EOF))
+        self.push(Token("$", Token.END_OF_INPUT))
