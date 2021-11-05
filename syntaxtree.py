@@ -1,27 +1,27 @@
 class TreeNode():
-    def __init__(self):
-        self.left = None
-        self.right = None
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
 
 
 class Infix(TreeNode):
     def __init__(self, left, operator, right):
-        super().__init__()
-        print(f"InfixExpr: {left, operator, right}")
+        super().__init__(left, right)
+        print(left, operator.text, right)
 
 
 class Unary(TreeNode):
-    def __init__(self, operator, right):
-        super().__init__()
-        print(f"UnaryExpr: {operator, right}")
+    def __init__(self, operator, expr):
+        super().__init__(expr, None)
+        print(operator.text, expr)
 
 
 class NestedGroup(TreeNode):
     def __init__(self, expr):
-        super().__init__()
-        print(f"NestedGroup: {expr}")
+        super().__init__(expr,  None)
+        print(expr)
 
 
 class NumberLiteral(TreeNode):
     def __init__(self, number):
-        super().__init__()
+        super().__init__(None, None)

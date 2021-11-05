@@ -13,4 +13,6 @@ if __name__ == "__main__":
         tokens.tokenize(input)
 
         parse = Syntax(tokens)
-        parse.expr()
+        root = parse.expr()
+
+        print(root)
