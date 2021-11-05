@@ -3,10 +3,11 @@ class TreeNode():
         self.left = None
         self.right = None
 
+
 class Infix(TreeNode):
     def __init__(self, left, operator, right):
         super().__init__()
-        print(f"InfixExpr: {left,operator, right}")
+        print(f"InfixExpr: {left, operator, right}")
 
 
 class Unary(TreeNode):
@@ -24,4 +25,3 @@ class NestedGroup(TreeNode):
 class NumberLiteral(TreeNode):
     def __init__(self, number):
         super().__init__()
-        print(f"Number: {number}")

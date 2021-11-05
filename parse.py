@@ -2,8 +2,6 @@ from lexer import Token
 import syntaxtree
 
 
-
-
 class Syntax():
     def __init__(self, tokens):
         self.tokens = tokens
