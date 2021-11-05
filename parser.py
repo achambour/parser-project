@@ -35,6 +35,13 @@ class Syntax():
     def __init__(self, start_token):
         self.token = start_token
 
+    def advance(self):
+        if not self.token.next:
+            print(f"Info: parser: reached end of list")
+            exit(0)
+
+        self.token = self.token.next
+
     def expr(self):
         return self.term()
 
@@ -44,7 +51,7 @@ class Syntax():
         while self.token.match(lexer.PLUS, lexer.MINUS):
             print(f"Info: parser: matched '{self.token.text}'")
             operator = self.token
-            self.token = self.token.next
+            self.advance()
             right = self.factor()
             # expr = subtree.term(expr, operator, right)
 
@@ -56,7 +63,7 @@ class Syntax():
         while self.token.match(lexer.STAR, lexer.SLASH):
             print(f"Info: parser: matched '{self.token.text}'")
             operator = self.token
-            self.token = self.token.next
+            self.advance()
             right = self.unary()
             # expr = subtree.factor(expr, operator, right)
 
@@ -66,7 +73,7 @@ class Syntax():
         if self.token.match(lexer.MINUS):
             print(f"Info: parser: matched '{self.token.text}'")
             operator = self.token
-            self.token = self.token.next
+            self.advance()
             right = self.unary()
 
             # return subtree.unary(operator, right)
@@ -77,29 +84,28 @@ class Syntax():
     def primary(self):
         if self.token.match(lexer.LPAR):
             print(f"Info: parser: matched '{self.token.text}'")
-            self.token = self.token.next
+            self.advance()
 
             # Recurse back to the start symbol
             expr = self.expr()
 
             if self.token.match(lexer.RPAR):
                 print(f"Info: parser: matched '{self.token.text}'")
-                self.token = self.token.next
+                self.advance()
             else:
                 print(f"Error: parser: expect ')' after expression")
                 exit(-1)
 
             # return subtree.grouping(expr)
-
-        if not self.token:
-            print(f"Info: parser: input is valid")
-            exit(0)
+            return None
 
         if self.token.match(lexer.NUMBER):
             print(f"Info: parser: matched '{self.token.text}'")
             number = self.token
-            self.token = self.token.next
+            self.advance()
 
             # return subtree.number(number)
+            return None
 
-        return None
+        print(f"Error: parser: expect number but got '{self.token.text}'")
+        exit(-1)
