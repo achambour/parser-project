@@ -36,10 +36,6 @@ class Syntax():
         self.token = start_token
 
     def advance(self):
-        if not self.token:
-            print(f"Info: parser: reached end of list")
-            exit(0)
-
         self.token = self.token.next
 
     def expr(self):
@@ -107,5 +103,4 @@ class Syntax():
             # return subtree.number(number)
             return None
 
-        print(f"Error: parser: expect number but got '{self.token.text}'")
-        exit(-1)
+        return None
