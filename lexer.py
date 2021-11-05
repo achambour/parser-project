@@ -18,9 +18,9 @@ class Token():
         self.prev = None
         self.next = None
 
-    def match(self, *args):
-        for kind in args:
-            if self.check(kind):
+    def match(self, *tokens):
+        for token in tokens:
+            if self.check(token ):
                 return True
         return False
 
