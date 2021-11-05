@@ -7,7 +7,7 @@ class Syntax():
         self.tokens = tokens
 
     def expr(self):
-        self.term()
+        return self.term()
 
     def term(self):
         expr = self.factor()
