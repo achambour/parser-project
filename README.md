@@ -58,6 +58,6 @@ This notation yields the following code implementation:
 | ---------------- | -------------------------------------------------------------------- |
 | Terminal         | Match and eat a token                                                |
 | Nonterminal      | Call to the corresponding rule function                              |
-| `|`              | `if` or `switch` (or peek current token to choose an expansion rule) |
+| `\|`             | `if` or `switch` (or peek current token to choose an expansion rule) |
 | `*` or `+`       | `while` or `for` loop to match the regex group                       |
 | `?`              | `if` condition (match and eat a token only if present)               |
