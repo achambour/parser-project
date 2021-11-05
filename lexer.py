@@ -15,12 +15,11 @@ class Token():
     def __init__(self, text, kind):
         self.text = text
         self.kind = kind
-        self.prev = None
         self.next = None
 
     def match(self, *tokens):
         for token in tokens:
-            if self.check(token ):
+            if self.check(token):
                 return True
         return False
 
@@ -37,7 +36,7 @@ class Tokenizer():
         self.head = None
         self.tail = None
 
-    def add(self, new):
+    def insert_end(self, new):
         # first token inserted
         if not self.head and not self.tail:
             self.head = new
@@ -45,27 +44,26 @@ class Tokenizer():
             return
 
         self.tail.next = new
-        new.prev = self.tail
         self.tail = new
 
     def tokenize(self, input):
         for word in input.split():
             if word.isnumeric():
-                self.add(Token(word, Token.NUMBER))
+                self.insert_end(Token(word, Token.NUMBER))
             elif word in "+":
-                self.add(Token(word, Token.PLUS))
+                self.insert_end(Token(word, Token.PLUS))
             elif word in "-":
-                self.add(Token(word, Token.MINUS))
+                self.insert_end(Token(word, Token.MINUS))
             elif word in "*":
-                self.add(Token(word, Token.STAR))
+                self.insert_end(Token(word, Token.STAR))
             elif word in "/":
-                self.add(Token(word, Token.SLASH))
+                self.insert_end(Token(word, Token.SLASH))
             elif word == "(":
-                self.add(Token(word, Token.LPAR))
+                self.insert_end(Token(word, Token.LPAR))
             elif word == ")":
-                self.add(Token(word, Token.RPAR))
+                self.insert_end(Token(word, Token.RPAR))
             else:
                 print(f"Error: lexer: unrecognized token {word}")
                 exit(-1)
 
-        self.add(Token("$", Token.EOF))
+        self.insert_end(Token("$", Token.EOF))
