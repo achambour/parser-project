@@ -4,13 +4,13 @@ class TreeNode():
         self.right = right
 
 
-class Infix(TreeNode):
+class InfixExpr(TreeNode):
     def __init__(self, left, operator, right):
         super().__init__(left, right)
         print(left, operator.text, right)
 
 
-class Unary(TreeNode):
+class UnaryExpr(TreeNode):
     def __init__(self, operator, expr):
         super().__init__(expr, None)
         print(operator.text, expr)
