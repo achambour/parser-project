@@ -36,11 +36,13 @@ def term():
 
 This is fixed by refactoring each left recursive rule into a right recursive one:
 
+```
 expr    -> term
 term    -> factor ("+" | "-") factor | factor
 factor  -> unary ("*" | "/") unary | unary
 unary   -> "-" unary | primary
 primary -> "(" expr ")" | [0-9] | $
+```
 
 Simplifying the grammar in a regex-like notation:
 
