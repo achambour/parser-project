@@ -36,7 +36,7 @@ class Syntax():
         self.token = start_token
 
     def advance(self):
-        if not self.token.next:
+        if not self.token:
             print(f"Info: parser: reached end of list")
             exit(0)
 
