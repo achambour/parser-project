@@ -42,6 +42,7 @@ class Syntax():
         expr = self.factor()
 
         while self.token.match(lexer.PLUS, lexer.MINUS):
+            print(f"Info: parser: matched '{self.token.text}'")
             operator = self.token
             self.token = self.token.next
             right = self.factor()
@@ -53,6 +54,7 @@ class Syntax():
         expr = self.unary()
 
         while self.token.match(lexer.STAR, lexer.SLASH):
+            print(f"Info: parser: matched '{self.token.text}'")
             operator = self.token
             self.token = self.token.next
             right = self.unary()
@@ -62,9 +64,11 @@ class Syntax():
 
     def unary(self):
         if self.token.match(lexer.MINUS):
+            print(f"Info: parser: matched '{self.token.text}'")
             operator = self.token
             self.token = self.token.next
             right = self.unary()
+
             # return subtree.unary(operator, right)
             return None
 
@@ -72,16 +76,30 @@ class Syntax():
 
     def primary(self):
         if self.token.match(lexer.LPAR):
+            print(f"Info: parser: matched '{self.token.text}'")
             self.token = self.token.next
+
+            # Recurse back to the start symbol
             expr = self.expr()
 
-            if not self.token.match(lexer.RPAR):
+            if self.token.match(lexer.RPAR):
+                print(f"Info: parser: matched '{self.token.text}'")
+                self.token = self.token.next
+            else:
                 print(f"Error: parser: expect ')' after expression")
                 exit(-1)
 
             # return subtree.grouping(expr)
-            return None
+
+        if not self.token:
+            print(f"Info: parser: input is valid")
+            exit(0)
 
         if self.token.match(lexer.NUMBER):
-            # return subtree.number(self.token)
-            return None
+            print(f"Info: parser: matched '{self.token.text}'")
+            number = self.token
+            self.token = self.token.next
+
+            # return subtree.number(number)
+
+        return None
