@@ -65,7 +65,7 @@ class TokenStack():
             elif word == ")":
                 self.push(Token(word, Token.RPAR))
             else:
-                print(f"Lexical error: unrecognized token {word}")
+                print(f"Lexer error: unrecognized token {word}")
                 exit(-1)
 
         self.push(Token("$", Token.END_OF_INPUT))

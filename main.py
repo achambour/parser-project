@@ -2,7 +2,7 @@
 
 import sys
 from lexer import TokenStack
-from parser import Syntax
+from parse import Syntax
 
 if __name__ == "__main__":
 
@@ -11,3 +11,6 @@ if __name__ == "__main__":
 
         tokens = TokenStack()
         tokens.tokenize(input)
+
+        parse = Syntax(tokens)
+        parse.expr()
