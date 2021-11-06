@@ -1,10 +1,11 @@
 from lexer import Token
 import syntaxtree
-
+import pydot
 
 class Syntax():
     def __init__(self, tokens):
         self.tokens = tokens
+        self.graph = pydot.Dot(graph_type='graph')
 
     def expr(self):
         return self.term()
@@ -15,6 +16,7 @@ class Syntax():
             operator = self.tokens.eat()
             right = self.factor()
             expr = syntaxtree.InfixExpr(expr, operator, right)
+            self.graph.add_node(pydot.Node(id(operator), label=operator.text))
         return expr
 
     def factor(self):
@@ -23,13 +25,16 @@ class Syntax():
             operator = self.tokens.eat()
             right = self.unary()
             expr = syntaxtree.InfixExpr(expr, operator, right)
+            self.graph.add_node(pydot.Node(id(operator), label=operator.text))
         return expr
 
     def unary(self):
         if self.tokens.match(Token.MINUS):
             operator = self.tokens.eat()
             right = self.unary()
-            return syntaxtree.UnaryExpr(operator, right)
+            expr = syntaxtree.UnaryExpr(operator, right)
+            self.graph.add_node(pydot.Node(id(operator), label=operator.text))
+            return expr
         return self.primary()
 
     def primary(self):
@@ -44,6 +49,8 @@ class Syntax():
 
         if self.tokens.match(Token.NUMBER):
             number = self.tokens.eat()
-            return syntaxtree.NumberLiteral(number)
+            expr = syntaxtree.NumberLiteral(number)
+            self.graph.add_node(pydot.Node(id(number), label=number.text))
+            return expr
 
         return None
