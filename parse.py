@@ -2,6 +2,7 @@ from lexer import Token
 import syntaxtree
 import pydot
 
+
 class Syntax():
     def __init__(self, tokens):
         self.tokens = tokens
@@ -21,7 +22,7 @@ class Syntax():
 
     def factor(self):
         expr = self.unary()
-        while self.tokens.match(Token.STAR, Token.SLASH):
+        while self.tokens.match(Token.ASTERISK, Token.SLASH):
             operator = self.tokens.eat()
             right = self.unary()
             expr = syntaxtree.InfixExpr(expr, operator, right)
