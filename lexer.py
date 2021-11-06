@@ -91,9 +91,9 @@ class Tokenizer():
 
             # dispatch to scanner helper functions
             if arg[i].isdigit():
-                token = self.number(arg[i:-1])
+                token = self.number(arg[i:])
             elif arg[i] in "+-*/()":
-                token = self.symbol(arg[i:-1])
+                token = self.symbol(arg[i:])
 
             # add token and advance the scanner head
             if token:
