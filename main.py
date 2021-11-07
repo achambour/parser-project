@@ -1,7 +1,7 @@
-#!/opt/homebrew/bin/python
+#!/usr/bin/env python3
 
 import sys
-from lexer import TokenStack
+from lexer import Tokenizer
 from parse import Syntax
 
 import pydot
@@ -20,14 +20,13 @@ def traverse_inorder(graph, node):
 if __name__ == "__main__":
 
     if len(sys.argv) > 1:
-        input = str(sys.argv[1])
+        arg = str(sys.argv[1])
 
-        tokens = TokenStack()
-        tokens.tokenize(input)
+        tokenizer = Tokenizer()
+        tokenizer.scan(arg)
 
-        parse = Syntax(tokens)
+        parse = Syntax(tokenizer.tokens)
         root = parse.expr()
 
         traverse_inorder(parse.graph, root)
-
         parse.graph.write_png("output.png")
