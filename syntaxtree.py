@@ -1,20 +1,20 @@
 class TreeNode():
-    def __init__(self, token, left, right):
-        self.token = token
+    def __init__(self, left, token, right):
         self.left = left
+        self.token = token
         self.right = right
 
 
 class InfixExpr(TreeNode):
     def __init__(self, left, operator, right):
-        super().__init__(operator, left, right)
+        super().__init__(left, operator, right)
 
 
 class UnaryExpr(TreeNode):
     def __init__(self, operator, expr):
-        super().__init__(operator, expr, None)
+        super().__init__(expr, operator, None)
 
 
 class NumberLiteral(TreeNode):
     def __init__(self, number):
-        super().__init__(number, None, None)
+        super().__init__(None, number, None)
