@@ -4,7 +4,7 @@ This project is about building a lexer and a parser to analyse basic mathematica
 
 The aim of the project is purely educational and is about practically understanding the low-level implementation of programming languages. Roughly speaking, it is about understanding how the machine processes computer code from a set of human-friendly instructions based on a pre-defined grammar to computer-interpretable commands.
 
-The project leveraged the object oriented feature of Python - in particular, classes were used to define the components of our mathematical grammar (ie. the so-called "tokens") as well as their attributes. The use of classes implified the way objects were called in the both the lexer and parser algorithms.
+The project leveraged the object oriented feature of Python - in particular, classes were used to define the components of our mathematical grammar (ie. the so-called "tokens") as well as their attributes. The use of classes simplified the way objects were called in the both the lexer and parser algorithms.
 ## Features of the grammar & parser description
 
 Valid expressions parsed by our program include:
