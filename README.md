@@ -37,7 +37,6 @@ term    ⟶ term ("+" | "-") factor | factor
 factor  ⟶ factor ("*" | "/") unary | unary
 unary   ⟶ "-" unary | primary
 primary ⟶ "(" expr ")" | NUMBER | $
-
 ```
 
 > Note: ```expr```, ```term```,```factor```, ```unary``` and ```primary``` are all non-terminals. They define the grammar according to the production rule where ```⟶``` can be interpreted as "represented by". All other variables, such as ```NUMBER``` or operations ```+, -, *, /``` are terminals ie. they are the symbols of our grammar. Finally the ```$``` sign represents the final terminal denoting the end of the expression.
@@ -50,7 +49,6 @@ term    ⟶ factor ( ("+" | "-") factor )*
 factor  ⟶ unary ( ("*" | "/") unary )*
 unary   ⟶ "-" unary | primary
 primary ⟶ "(" expr ")" | NUMBER | $
-
 ```
 This notation yields the following code implementation:
 
@@ -108,7 +106,6 @@ the DOT code can be written manually:
 + -> * -> 9
 + -> * -> 8
 + -> * -> 3
-
 ```
 As the ```*``` are two distinct operations (in the sense that they are part of different expressions), identifiers were used when invoking the tree nodes to distinguish them - so as to have ```+``` point to both ```*``` in the AST
 
