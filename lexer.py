@@ -4,13 +4,13 @@ from enum import Enum
 class Token():
 
     EPSILON = -1
-    NUMBER = 0
-    PLUS = 1
-    MINUS = 2
-    ASTERISK = 3
-    SLASH = 4
-    LPAR = 5
-    RPAR = 6
+    PLUS = 0
+    MINUS = 1
+    ASTERISK = 2
+    SLASH = 3
+    LPAR = 4
+    RPAR = 5
+    NUMBER = 6
 
     def __init__(self, text, kind):
         self.text = text
@@ -58,48 +58,37 @@ class Tokenizer():
     def __init__(self):
         self.tokens = TokenStack()
 
-    def number(self, arg):
-        num = ""
-        for c in arg:
-            if not c.isdigit():
-                break
-            num += c
-        return Token(num, Token.NUMBER)
-
-    def symbol(self, arg):
-        if arg[0] == "+":
-            return Token("+", Token.PLUS)
-        elif arg[0] == "-":
-            return Token("-", Token.MINUS)
-        elif arg[0] == "*":
-            return Token("*", Token.ASTERISK)
-        elif arg[0] == "/":
-            return Token("/", Token.SLASH)
-        elif arg[0] == "(":
-            return Token("(", Token.LPAR)
-        elif arg[0] == ")":
-            return Token(")", Token.RPAR)
-
-    def scan(self, arg):
+    def scan(self, str):
         i = 0
-        while i < len(arg):
-            # skip blanks
-            while i < len(arg) and arg[i].isspace():
+        n = len(str)
+        while i < n:
+            if str[i].isspace():
+                while i < n and str[i].isspace():
+                    i += 1
+            elif str[i].isnumeric():
+                s = ""
+                while i < n and str[i].isnumeric():
+                    s += str[i]
+                    i += 1
+                self.tokens.add(Token(s, Token.NUMBER))
+            elif str[i] == "+":
+                self.tokens.add(Token("+", Token.PLUS))
                 i += 1
-
-            token = None
-
-            # dispatch to scanner helper functions
-            if arg[i].isdigit():
-                token = self.number(arg[i:])
-            elif arg[i] in "+-*/()":
-                token = self.symbol(arg[i:])
-
-            # add token and advance the scanner head
-            if token:
-                self.tokens.add(token)
-                i += len(token.text)
+            elif str[i] == "-":
+                self.tokens.add(Token("-", Token.MINUS))
+                i += 1
+            elif str[i] == "*":
+                self.tokens.add(Token("*", Token.ASTERISK))
+                i += 1
+            elif str[i] == "/":
+                self.tokens.add(Token("/", Token.SLASH))
+                i += 1
+            elif str[i] == "(":
+                self.tokens.add(Token("(", Token.LPAR))
+                i += 1
+            elif str[i] == ")":
+                self.tokens.add(Token(")", Token.RPAR))
+                i += 1
             else:
-                raise ScanningError(arg[i])
-
+                raise Exception(f"Lexer: unrecognized token {str[i]}")
         self.tokens.add(Token("$", Token.EPSILON))
