@@ -102,8 +102,8 @@ corresponding to the expression ```1*4+9*(1/(7+1))```
 the DOT code can be written manually:
 
 ```
-+ -> * -> 4
 + -> * -> 1
++ -> * -> 4
 + -> * -> 9
 + -> * -> / -> 1
 + -> * -> / -> + -> 7
