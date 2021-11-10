@@ -102,10 +102,12 @@ corresponding to the expression ```1*4+9*(1/(7+1))```
 the DOT code can be written manually:
 
 ```
-+ -> * -> 2
++ -> * -> 4
++ -> * -> 1
 + -> * -> 9
-+ -> * -> 8
-+ -> * -> 3
++ -> * -> / -> 1
++ -> * -> / -> + -> 7
++ -> * -> / -> + -> 1
 ```
 As the ```*``` are two distinct operations (in the sense that they are part of different sub-expressions), identifiers were used when calling the tree nodes to distinguish them so as to have ```+``` point to both ```*``` in the AST
 
