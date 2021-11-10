@@ -1,8 +1,8 @@
 # Recursive-descent parser in Python
 
-This project is about building a lexer and a parser to analyse basic mathematical arithmetic operations. The aim is to eventually combine the parser with an interpreter to implement a small calculator.
+This project is about building a lexer and a parser to analyse basic arithmetic operations. The aim is to eventually combine the parser with an interpreter to implement a small calculator.
 
-The aim of the project is purely educational and is about practically understanding the low-level implementation of programming languages. Roughly speaking, it is about understanding how the machine processes computer code from a set of human-friendly instructions based on a pre-defined grammar to computer-interpretable commands.
+The aim of the project is purely educational and is about practically understanding the implementation of programming languages. Roughly speaking, it is about understanding how the machine processes computer code from a set of human-friendly instructions to an abstract representation of commands before compilation and execution.
 
 The project leveraged the object oriented feature of Python - in particular, classes were used to define the components of our mathematical grammar (ie. the so-called "tokens") as well as their attributes. The use of classes simplified the way objects were called in the both the lexer and parser algorithms.
 ## Features of the grammar & parser description
@@ -27,7 +27,7 @@ The grammar must satisfy a number of properties in order to be parsed:
 
 * It must not be *left recursive* ie. no string in the grammar can decompose into itself followed by a suffix.
 
-The above features define a grammar that can be parsed using a special class of parsers under the LL(k) type (for Left-to-right, Leftmost look-ahead by k tokens). We implement the simplest of those, namely the LL(1) parser. The parser "peaks" into a single token prior to consuming it by which it identifies the appropriate grammatical rule. The rule identified by our parser when analysing the syntax of the input is unambiguously correct, in the sense that no back-tracking is required when a production rule has several alternatives. The back-tracking is of no harm; in fact it is even a stronger implementation as it explores all the possible productions that the grammar can accept. We do not implement it here because of its inefficiency and content ourselves instead with a predictive recursive-descent parser.
+The above features define a grammar that can be parsed using a special class of parsers under the LL(k) type (for Left-to-right, Leftmost look-ahead by k tokens). We implement the simplest of those, namely the LL(1) parser. The parser "peaks" into a single token prior to consuming it by which it identifies the appropriate grammatical rule. The rule identified by our parser when analysing the syntax of the input is unambiguously correct, in the sense that no back-tracking is required when a production rule has several alternatives. The back-tracking is of no harm; in fact it is even a stronger implementation as it explores all the possible production alternatives that the grammar can accept. We do not implement it here because of its inefficiency in the context of our grammar and instead use a predictive recursive-descent parser.
 
 Our LL(1) grammar is defined by the following production rules (in a way that avoids left recursion):
 
@@ -85,11 +85,11 @@ def term():
 
 ### The AST:
 
-The current output of our parser is the abstract syntax tree (AST) of the input. The AST has several features: it is a binary tree, the operations are always parent nodes and the syntatic details like the parenthesis are ommitted. The AST is in fact a compact version of the parse tree (also known as comptact syntax tree (CST)) but unlike the CST it ommits all the syntatic clutter and focuses on the input represented in a hierarchical data structure. In that sense, it is naturally more useful for the semantic analysis of the language grammar.
+The current output of our parser is the abstract syntax tree (AST) of the input preceding the intermediate representation. The AST has several features: it is a binary tree, the operations are always parent nodes and the syntatic details like the parenthesis are ommitted. The AST is in fact a compact version of the parse tree (also known as comptact syntax tree (CST)) but unlike the CST it ommits all the syntatic clutter and focuses the representation of the input in a hierarchical data structure. In that sense, it is naturally more useful for the semantic analysis of the language grammar.
 
-The tree is constructed in a top-down fashion. After the lexer has completed the lexical analysis, the parser analyses the expression from left to right and constructs the tree starting from the root node at the top where input will be read from left to right. The corresponding structure also respects the precedence order established by the grammar (essentially BIDMAS in our case). The grammar uses top-down operator precedence, where the precedence order is low to high. This is confusing: rules at the top of the grammar have a lower precedence value while rules at the bottom have an higher one.
+The tree is constructed in a top-down fashion. After the lexer has completed the lexical analysis, the parser analyses the expression from left to right and constructs the tree starting from the root node at the top where input will be read from left to right. The corresponding structure also respects the precedence order established by the grammar. The grammar uses top-down operator precedence, where the precedence order is low to high. This is confusing: rules at the top of the grammar have a lower precedence value while rules at the bottom have a higher one.
 
-The AST is constructed by traversing the implicit CST generated by the parser. Since the tree is constructed top down, a depth-first search (DFS) travel is performed on the CST (practically, the nodes are created in the ```Syntax()``` class functions according to the ```TreeNode()``` class attributes and then the edges are created in the DFS in-order traversal under the appropriate function)
+The AST is constructed by traversing the implicit CST generated by the parser. Since the tree is constructed top down, a depth-first search (DFS) is performed on the CST (practically, the nodes are created in the ```Syntax()``` class functions according to the ```TreeNode()``` class attributes and then the edges are created in the in-order DFS traversal under the appropriate function)
 
 To have a better visualisation of the AST, the ```pydot``` and ```Graphviz``` Python libraries were used. The libraries use the ```DOT``` graph description language. The ```pydot``` library functions facilitate the tree creation and allows it to handle more complicated expressions.
 
@@ -107,12 +107,12 @@ the DOT code can be written manually:
 + -> * -> 8
 + -> * -> 3
 ```
-As the ```*``` are two distinct operations (in the sense that they are part of different expressions), identifiers were used when invoking the tree nodes to distinguish them - so as to have ```+``` point to both ```*``` in the AST
+As the ```*``` are two distinct operations (in the sense that they are part of different expressions), identifiers were used when calling the tree nodes to distinguish them - so as to have ```+``` point to both ```*``` in the AST
 
 
 ### Further steps:
 
-Next steps for the improvement and completion of the project are building the interpretor and handling potential errors in the expression (such as having two consecutive ```+``` signs).
+Next steps for the improvement and completion of the project are building the interpretor and handling more errors in the expression (such as having two consecutive ```+``` signs).
 
 ### Useful resources:
 
