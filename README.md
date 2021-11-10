@@ -2,9 +2,9 @@
 
 This project is about building a lexer and a parser to analyse basic arithmetic operations. The aim is to eventually combine the parser with an interpreter to implement a small calculator.
 
-The aim of the project is purely educational and is about practically understanding the implementation of programming languages. Roughly speaking, it is about understanding how the machine processes computer code from a set of human-friendly instructions to an abstract representation of commands before compilation and execution.
+The aim of the project is purely educational and is about understanding the implementation of programming languages. Roughly speaking, it is about understanding how the computer processes code from a set of human-friendly instructions to their abstract representation before compilation and execution.
 
-The project leveraged the object oriented feature of Python - in particular, classes were used to define the components of our mathematical grammar (ie. the so-called "tokens") as well as their attributes. The use of classes simplified the way objects were called in the both the lexer and parser algorithms.
+The project leveraged the object oriented feature of Python. In particular, classes were used to define the components of our mathematical grammar (ie. the so-called "tokens") as well as their attributes. The use of classes simplified the way objects were called in the both the lexer and the parser algorithms.
 ## Features of the grammar & parser description
 
 Valid expressions parsed by our program include:
@@ -22,7 +22,7 @@ The grammar must satisfy a number of properties in order to be parsed:
 
 * It must be *context-free* ie. the grammar does not change under any circumstances exterior to its rules.
 
-* It must be *unambiguous* ie. a given expression can only be interpreted in one way and, as such, the parser generates a correspondingly unique parse tree. The requirement to have unambiguity is essential for our parser to work as it is a deterministic finite state machine.
+* It must be *unambiguous* ie. a given expression can only be interpreted in one way and the parser generates a correspondingly unique parse tree. The requirement to have unambiguity is essential for our parser to work as it is a deterministic finite state machine.
 
 
 * It must not be *left recursive* ie. no string in the grammar can decompose into itself followed by a suffix.
@@ -97,7 +97,7 @@ For a  graph like this:
 
 ![](output.png)
 
-corresponding to the expression ```2 * 9 + 3 * 8```
+corresponding to the expression ```1*4 + 9 * (1/(7+1))```
 
 the DOT code can be written manually:
 
@@ -107,12 +107,12 @@ the DOT code can be written manually:
 + -> * -> 8
 + -> * -> 3
 ```
-As the ```*``` are two distinct operations (in the sense that they are part of different expressions), identifiers were used when calling the tree nodes to distinguish them - so as to have ```+``` point to both ```*``` in the AST
+As the ```*``` are two distinct operations (in the sense that they are part of different sub-expressions), identifiers were used when calling the tree nodes to distinguish them so as to have ```+``` point to both ```*``` in the AST
 
 
 ### Further steps:
 
-Next steps for the improvement and completion of the project are building the interpretor and handling more errors in the expression (such as having two consecutive ```+``` signs).
+Next steps for the improvement and completion of the project are building the interpretor and handling more errors in the expressions (such as having two consecutive ```+``` signs).
 
 ### Useful resources:
 
