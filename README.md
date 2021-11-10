@@ -97,7 +97,7 @@ For a  graph like this:
 
 ![](output.png)
 
-corresponding to the expression ```1*4 + 9 * (1/(7+1))```
+corresponding to the expression ```1*4+9*(1/(7+1))```
 
 the DOT code can be written manually:
 
