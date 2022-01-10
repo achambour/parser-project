@@ -33,8 +33,8 @@ Our LL(1) grammar is defined by the following production rules (in a way that av
 
 ```
 expr    ⟶ term
-term    ⟶ term ("+" | "-") factor | factor
-factor  ⟶ factor ("*" | "/") unary | unary
+term    ⟶ factor ("+" | "-") factor | factor
+factor  ⟶ unary ("*" | "/") unary | unary
 unary   ⟶ "-" unary | primary
 primary ⟶ "(" expr ")" | NUMBER | $
 ```
